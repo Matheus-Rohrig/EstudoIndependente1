@@ -1,0 +1,47 @@
+Requisitos Funcionais
+RF01 - O sistema deve permitir cadastrar uma nova Ordem de Serviço.
+RF02 - O sistema deve permitir alterar informações de Ordens de Serviço existentes.
+RF03 - O sistema deve permitir consultar Ordens de Serviço cadastradas.
+RF04 - O sistema deve permitir listar todas as Ordens de Serviço registradas.
+RF05 - O sistema deve permitir pesquisar Ordens de Serviço pelo nome da empresa contratante.
+RF06 - O sistema deve permitir pesquisar Ordens de Serviço pela data de realização.
+RF07 - O sistema deve permitir registrar os funcionários envolvidos em cada serviço.
+RF08 - O sistema deve permitir registrar os materiais utilizados em cada Ordem de Serviço.
+RF09 - O sistema deve permitir informar a quantidade de horas trabalhadas.
+RF10 - O sistema deve permitir indicar se a Ordem de Serviço está em andamento ou finalizada.
+RF11 - O sistema deve permitir informar se a Ordem de Serviço aguarda aprovação do cliente.
+RF12 - O sistema deve permitir informar se o pagamento do serviço foi realizado.
+RF13 - O sistema deve permitir gerar relatórios no terminal.
+RF14 - O sistema deve permitir salvar os dados em arquivos CSV.
+RF15 - O sistema deve permitir recuperar os dados salvos anteriormente em arquivos CSV.
+RF16 - O sistema deve validar informações obrigatórias durante o cadastro da Ordem de Serviço.
+RF17 - O sistema deve permitir encerrar a aplicação de forma segura.
+
+
+Requisitos Não Funcionais
+RNF01 - O sistema deve funcionar em ambiente terminal/console.
+RNF02 - O sistema deve possuir interface textual simples e de fácil utilização.
+RNF03 - O sistema deve utilizar arquivos CSV para persistência de dados.
+RNF04 - O sistema deve apresentar baixo consumo de recursos computacionais.
+RNF05 - O sistema deve permitir rápida recuperação das informações cadastradas.
+RNF06 - O sistema deve manter organização padronizada dos dados armazenados.
+RNF07 - O sistema deve possuir estrutura modular para facilitar a manutenção futura.
+RNF08 - O sistema deve apresentar mensagens claras ao usuário.
+RNF09 - O sistema deve evitar perda de dados durante o salvamento das informações.
+RNF10 - O sistema deve permitir fácil adaptação para futuras melhorias.
+Menu do Sistema
+
+
+O sistema possuirá um menu textual semelhante ao exemplo abaixo:
+========================================
+SISTEMA DE GESTÃO DE ORDENS DE SERVIÇO
+========================================
+1 - Criar Ordem de Serviço
+2 - Alterar Ordem de Serviço
+3 - Consultar Ordem de Serviço
+4 - Listar Ordens de Serviço
+5 - Gerar Relatórios
+6 - Salvar Dados
+7 - Carregar Dados
+8 - Sair
+Escolha uma opção:
