@@ -365,51 +365,7 @@ public class Main {
                     menuLoop = false;
                     break;
                 case 9:
-                    imprimir("========================================\n");
-                    imprimir("            ORDEM DE SERVIÇO            \n");
-                    imprimir("========================================\n");
-                    imprimir("Estado do serviço: _________________\n");
-                    imprimir("========================================\n");
-
-                    imprimir("EMPRESA\n");
-                    imprimir("----------------------------------------\n");
-                    imprimir("Nome da empresa: " + empresa + "\n");
-                    imprimir("\n");
-
-                    imprimir("FUNCIONÁRIOS\n");
-                    imprimir("----------------------------------------\n");
-                    for(int i = 0; i < funcionarios.length; i++){
-                        imprimir("Funcionário " + (i+1) + " :" + funcionarios[i] + "\n");
-                        imprimir("Horas trabalhadas"+ horas[i] + "\n");
-                    }
-                    imprimir("\n");
-
-                    imprimir("RESPONSÁVEL TÉCNICO\n");
-                    imprimir("----------------------------------------\n");
-                    imprimir("Nome: " + respTecnico + "\n");
-                    imprimir("\n");
-
-                    imprimir("DESCRIÇÃO DO SERVIÇO\n");
-                    imprimir(descricao + "\n");
-                    imprimir("\n");
-
-                    imprimir("MATERIAIS UTILIZADOS\n");
-                    imprimir("----------------------------------------\n");
-                    for(int i = 0; i < materiais.length; i++){
-                        imprimir("Material: " + (i+1) + " :" + materiais[i] + "\n");
-                        imprimir("qQuantidade: " + quantidade[i] + "\n");
-                    }
-
-                    imprimir("\n");
-
-                    imprimir("OBSERVAÇÕES\n");
-                    imprimir("----------------------------------------\n");
-                    imprimir(observacao + "\n");
-                    imprimir("\n");
-
-                    imprimir("========================================\n");
-                    imprimir("         FIM DA ORDEM DE SERVIÇO        \n");
-                    imprimir("========================================\n");
+                    showOS("OS/andamento/" + archivesOnFolder[selecaoArchive].getName());
                     menuLoop = false;
                     break;
                 case 0:
@@ -439,5 +395,90 @@ public class Main {
     }
     public static void imprimir(String frase){
         System.out.print(frase);
+    }
+
+    public static void showOS(String caminho) {
+        Arquivo file = new Arquivo(caminho);
+
+        boolean finalizado = false;
+        String empresa = null,
+                respTecnico = null,
+                descricao = null,
+                observacao = null;
+
+        String[] funcionarios = null;
+        String auxFuncionarios = "Funcionario(s)";
+
+        String[] horas = null;
+        String auxHoras = "Horas";
+
+        String[] materiais = null;
+        String[] quantidade = null;
+        String auxQuantidades = "Quantidade";
+        String auxMateriais = "Materiais";
+
+        String auxFinalizado = null;
+        if(finalizado) {
+            auxFinalizado = "Finalizada";
+        } else {
+            auxFinalizado = "Andamento";
+        }
+
+        file.abrirLeitura();
+
+        String auxFimLeitura = null;
+        String auxConcatLeitura = null;
+        do{
+            auxFimLeitura = file.lerLinha();
+            auxConcatLeitura = auxConcatLeitura + auxFimLeitura;
+        }while(auxFimLeitura == null);
+
+        file.fecharArquivo();
+
+        imprimir("========================================\n");
+        imprimir("            ORDEM DE SERVIÇO            \n");
+        imprimir("========================================\n");
+        imprimir("Estado do serviço:" + auxFinalizado + "\n");
+        imprimir("========================================\n");
+
+        imprimir("EMPRESA\n");
+        imprimir("----------------------------------------\n");
+        imprimir("Nome da empresa: " + empresa + "\n");
+        imprimir("\n");
+
+        imprimir("FUNCIONÁRIOS\n");
+        imprimir("----------------------------------------\n");
+        for(int i = 0; i < funcionarios.length; i++){
+            imprimir("Funcionário " + (i+1) + " :" + funcionarios[i] + "\n");
+            imprimir("Horas trabalhadas"+ horas[i] + "\n");
+        }
+        imprimir("\n");
+
+        imprimir("RESPONSÁVEL TÉCNICO\n");
+        imprimir("----------------------------------------\n");
+        imprimir("Nome: " + respTecnico + "\n");
+        imprimir("\n");
+
+        imprimir("DESCRIÇÃO DO SERVIÇO\n");
+        imprimir(descricao + "\n");
+        imprimir("\n");
+
+        imprimir("MATERIAIS UTILIZADOS\n");
+        imprimir("----------------------------------------\n");
+        for(int i = 0; i < materiais.length; i++){
+            imprimir("Material: " + (i+1) + " :" + materiais[i] + "\n");
+            imprimir("qQuantidade: " + quantidade[i] + "\n");
+        }
+
+        imprimir("\n");
+
+        imprimir("OBSERVAÇÕES\n");
+        imprimir("----------------------------------------\n");
+        imprimir(observacao + "\n");
+        imprimir("\n");
+
+        imprimir("========================================\n");
+        imprimir("         FIM DA ORDEM DE SERVIÇO        \n");
+        imprimir("========================================\n");
     }
 }
