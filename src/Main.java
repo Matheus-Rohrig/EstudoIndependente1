@@ -1,16 +1,16 @@
 
 //Importar sistema de datas
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
-//importar Scanner para leitura em terminal(Pop-up inventado é bucha)
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+//importar Scanner para leitura em terminal(Pop-up inventado é bucha)
 //Importações relacionadas a utilização de MOVE e MOVE(Só que para renomear)(Mesmo método, só que indica o mesmo destino com nome diferente :))
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -42,11 +42,11 @@ public class Main {
                     createOSPage();
                     menuLoop = false;
                     break;
-                case 2: //
-
+                case 2: //Redireciona ao menu de edição de  OS
+                    editOsPage();
                     menuLoop = false;
                     break;
-                case 3:
+                case 3: //Redireciona ao menu de consulta de OS
 
                     menuLoop = false;
                     break;
@@ -79,13 +79,9 @@ public class Main {
                 descricao = null,
                 observacao = null;
 
-        //0 - nome
-        //1 - horas
         String[] funcionarios = null;
         String auxFuncionarios = "Funcionario(s)";
 
-        //0 - Nome
-        //1 - quantidade(Proibir letras, utilizar apenas números, mesmo sendo String)
         String[] horas = null;
         String auxHoras = "Horas";
 
@@ -271,6 +267,155 @@ public class Main {
                 //Caso serem capazes de errarem o simples
                 default:
                     imprimir("Opção inválida, por favor selecione uma das opções mencionadas\n");
+            }
+        }
+    }
+
+    public static void editOsPage() {
+        Scanner in = new Scanner(System.in);
+        File file = new File("OS/andamento");
+
+        boolean finalizado = false;
+        String empresa = null,
+                respTecnico = null,
+                descricao = null,
+                observacao = null;
+
+        String[] funcionarios = null;
+        String auxFuncionarios = "Funcionario(s)";
+
+        String[] horas = null;
+        String auxHoras = "Horas";
+
+        String[] materiais = null;
+        String[] quantidade = null;
+        String auxQuantidades = "Quantidade";
+        String auxMateriais = "Materiais";
+
+        File[] archivesOnFolder = file.listFiles();
+
+        for (int i = 0; i < archivesOnFolder.length; i++) {
+            imprimir((i+1) + " - " + archivesOnFolder[i].getName() + "\n");
+        }
+
+        imprimir("Selecione o arquivo que deseja editar:\n");
+        imprimir("(Digite a numeração do arquivo mostrado na lista acima)\n");
+
+        int selecaoArchive =  (in.nextInt() - 1);
+        Arquivo fileEdit = new Arquivo("OS/andamento/" + archivesOnFolder[selecaoArchive].getName());
+
+        boolean menuLoop = true;
+        String auxFinalizado = null;
+        if(finalizado) {
+            auxFinalizado = "Finalizada";
+        } else {
+            auxFinalizado = "Andamento";
+        }
+
+        while(menuLoop) {
+            imprimir("========================================\n");
+            imprimir("              EDIÇÃO DE OS             \n");
+            imprimir("========================================\n");
+            imprimir("1 - Alterar nome da empresa\n");
+            imprimir("2 - Alterar nome dos funcionários e horas trabalhadas\n");
+            imprimir("3 - Alterar responsável técnico pelo serviço\n");
+            imprimir("4 - Alterar Descrição serviço(s) realizado(s)\n");
+            imprimir("5 - Alterar materiais utilizados\n");
+            imprimir("6 - Alterar observação sobre o serviço\n");
+            imprimir("7 - Alterar estado do serviço(Andamento/Finalizado)\n");
+            imprimir("8 - Salvar Alterações\n");
+            imprimir("9 - Exibir OS\n");
+            imprimir("0 - Sair\n");
+            imprimir("Escolha uma opção: \n");
+
+            int selecao = in.nextInt();
+            in.nextLine();
+
+            switch(selecao){
+                case 1:
+
+                    menuLoop = false;
+                    break;
+                case 2:
+
+                    menuLoop = false;
+                    break;
+                case 3:
+
+                    menuLoop = false;
+                    break;
+                case 4:
+
+                    menuLoop = false;
+                    break;
+                case 5:
+
+                    menuLoop = false;
+                    break;
+                case 6:
+
+                    menuLoop = false;
+                    break;
+                case 7:
+
+                    menuLoop = false;
+                    break;
+                case 8:
+
+                    menuLoop = false;
+                    break;
+                case 9:
+                    imprimir("========================================\n");
+                    imprimir("            ORDEM DE SERVIÇO            \n");
+                    imprimir("========================================\n");
+                    imprimir("Estado do serviço: _________________\n");
+                    imprimir("========================================\n");
+
+                    imprimir("EMPRESA\n");
+                    imprimir("----------------------------------------\n");
+                    imprimir("Nome da empresa: " + empresa + "\n");
+                    imprimir("\n");
+
+                    imprimir("FUNCIONÁRIOS\n");
+                    imprimir("----------------------------------------\n");
+                    for(int i = 0; i < funcionarios.length; i++){
+                        imprimir("Funcionário " + (i+1) + " :" + funcionarios[i] + "\n");
+                        imprimir("Horas trabalhadas"+ horas[i] + "\n");
+                    }
+                    imprimir("\n");
+
+                    imprimir("RESPONSÁVEL TÉCNICO\n");
+                    imprimir("----------------------------------------\n");
+                    imprimir("Nome: " + respTecnico + "\n");
+                    imprimir("\n");
+
+                    imprimir("DESCRIÇÃO DO SERVIÇO\n");
+                    imprimir(descricao + "\n");
+                    imprimir("\n");
+
+                    imprimir("MATERIAIS UTILIZADOS\n");
+                    imprimir("----------------------------------------\n");
+                    for(int i = 0; i < materiais.length; i++){
+                        imprimir("Material: " + (i+1) + " :" + materiais[i] + "\n");
+                        imprimir("qQuantidade: " + quantidade[i] + "\n");
+                    }
+
+                    imprimir("\n");
+
+                    imprimir("OBSERVAÇÕES\n");
+                    imprimir("----------------------------------------\n");
+                    imprimir(observacao + "\n");
+                    imprimir("\n");
+
+                    imprimir("========================================\n");
+                    imprimir("         FIM DA ORDEM DE SERVIÇO        \n");
+                    imprimir("========================================\n");
+                    menuLoop = false;
+                    break;
+                case 0:
+                    mainMenu();
+                    menuLoop = false;
+                    break;
             }
         }
     }
