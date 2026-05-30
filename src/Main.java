@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -31,12 +32,12 @@ public class Main {
             imprimir("1 - Criar Ordem de Serviço\n");
             imprimir("2 - Alterar Ordem de Serviço\n");
             imprimir("3 - Consultar Ordem de Serviço\n");
-            imprimir("4 - Listar Ordens de Serviço\n");
-            imprimir("5 - Gerar Relatórios\n");
+            imprimir("4 - Gerar Relatórios\n");
             imprimir("0 - Sair\n");
             imprimir("Escolha uma opção: ");
 
             int selecao = in.nextInt();
+            in.nextLine(); //Matar o enter que sobra da entrada de inteiro
 
             switch(selecao){
                 case 1: //redireciona a seu devido menu
@@ -47,17 +48,50 @@ public class Main {
                     editOsPage();
                     menuLoop = false;
                     break;
-                case 3: //Redireciona ao menu de consulta de OS
+                case 3: //Redireciona ao "menu" de consulta de OS
+                    File file = new File("OS/andamento");
+                    File[] archivesOnFolder = file.listFiles();
 
-                    menuLoop = false;
+                    for (int i = 0; i < archivesOnFolder.length; i++) {
+                        imprimir((i+1) + " - " + archivesOnFolder[i].getName() + "\n");
+                    }
+
+                    imprimir("Selecione o arquivo que deseja editar:\n");
+                    imprimir("(Digite a numeração do arquivo mostrado na lista acima)\n");
+
+                    int selecaoArchive =  (in.nextInt() - 1);
+                    String fileShow = "OS/andamento/" + archivesOnFolder[selecaoArchive].getName();
+
+                    showOS(fileShow);
+
                     break;
                 case 4:
 
-                    menuLoop = false;
-                    break;
-                case 5:
+                    imprimir("========================================\n");
+                    imprimir("             RELATÓRIO OS\n");
+                    imprimir("========================================\n");
 
-                    menuLoop = false;
+                    File fileAnd = new File("OS/andamento");
+                    File[] archivesOnFolderAnd = fileAnd.listFiles();
+                    imprimir("OS em andamento: " + archivesOnFolderAnd.length + "\n");
+                    for (int i = 0; i < archivesOnFolderAnd.length; i++) {
+                        imprimir("  " + (i+1) + " - " + archivesOnFolderAnd[i].getName() + "\n");
+                    }
+
+                    File fileFin = new File("OS/finalizada");
+                    File[] archivesOnFolderFin = fileFin.listFiles();
+                    imprimir("OS Finalizada: " + archivesOnFolderFin.length + "\n");
+                    for (int i = 0; i < archivesOnFolderFin.length; i++) {
+                        imprimir("  " + (i+1) + " - " + archivesOnFolderFin[i].getName() + "\n");
+                    }
+
+                    imprimir("Aperte enter para prosseguir:\n");
+                    in.nextLine();
+
+                    imprimir("========================================\n");
+                    imprimir("             FIM RELATÓRIO OS\n");
+                    imprimir("========================================\n");
+
                     break;
                 case 0:
                     imprimir("==================================================\n");
@@ -316,15 +350,15 @@ public class Main {
                 observacao = null;
 
         String[] funcionarios = null;
-        String auxFuncionarios = "Funcionario(s)";
+        String auxFuncionarios = "";
 
         String[] horas = null;
-        String auxHoras = "Horas";
+        String auxHoras = "";
 
         String[] materiais = null;
         String[] quantidade = null;
-        String auxQuantidades = "Quantidade";
-        String auxMateriais = "Materiais";
+        String auxQuantidades = "";
+        String auxMateriais = "";
 
         File[] archivesOnFolder = file.listFiles();
 
@@ -346,6 +380,35 @@ public class Main {
             auxFinalizado = "Andamento";
         }
 
+        fileEdit.abrirLeitura();
+        //Ler o cabeçalho, atualemnte sem função alguma
+        fileEdit.lerLinha();
+
+        String auxDados = fileEdit.lerLinha();
+        /*
+        posições no array
+        0 - empresa
+        1 - Descricao
+        2 - Responsavel
+        3 - Funcionario(s) - repartir com |(pipe)
+        4 - Horas - repartir com |(pipe)
+        5 - Observacao
+        6 - Materiai(s) - repartir com |(pipe)
+        7 - Quantidade - repartir com |(pipe)
+         */
+        String[] auxArray = auxDados.split(";");
+
+        empresa = auxArray[0];
+        descricao = auxArray[1];
+        respTecnico = auxArray[2];
+        funcionarios = auxArray[3].split("\\|");
+        horas = auxArray[4].split("\\|");
+        observacao = auxArray[5];
+        materiais = auxArray[6].split("\\|");
+        quantidade = auxArray[7].split("\\|");
+
+        fileEdit.fecharArquivo();
+
         while(menuLoop) {
             imprimir("========================================\n");
             imprimir("              EDIÇÃO DE OS             \n");
@@ -365,40 +428,10 @@ public class Main {
             int selecao = in.nextInt();
             in.nextLine();
 
-            fileEdit.abrirLeitura();
-            //Ler o cabeçalho, atualemnte sem função alguma
-            fileEdit.lerLinha();
-
-            String auxDados = fileEdit.lerLinha();
-        /*
-        posições no array
-        0 - empresa
-        1 - Descricao
-        2 - Responsavel
-        3 - Funcionario(s) - repartir com |
-        4 - Horas
-        5 - Observacao
-        6 - Materiai(s) repartir com |
-        7 - Quantidade
-         */
-            String[] auxArray = auxDados.split(";");
-
-            empresa = auxArray[0];
-            descricao = auxArray[1];
-            respTecnico = auxArray[2];
-            funcionarios = auxArray[3].split("\\|");
-            horas = auxArray[4].split("\\|");
-            observacao = auxArray[5];
-            materiais = auxArray[6].split("\\|");
-            quantidade = auxArray[7].split("\\|");
-
-            fileEdit.fecharArquivo();
-
             switch(selecao){
                 case 1:
                     imprimir("Redigite o nome de empresa:\n");
                     empresa = in.nextLine();
-                    menuLoop = false;
                     break;
                 case 2:
                     boolean loop = true;
@@ -425,16 +458,14 @@ public class Main {
                     horas = Arrays.stream(horas)
                             .filter(s -> s != null && !s.trim().isEmpty() && !"null".equalsIgnoreCase(s.trim()))
                             .toArray(String[]::new);
-                    menuLoop = false;
                     break;
                 case 3:
                     imprimir("Redigite o novo responśavel  técnico\n");
                     respTecnico = in.nextLine();
-                    menuLoop = false;
                     break;
                 case 4:
                     imprimir("Redigite a descrição de serviço\n");
-                    menuLoop = false;
+                    descricao = in.nextLine();
                     break;
                 case 5:
                     loop = true;
@@ -459,12 +490,12 @@ public class Main {
                     quantidade = Arrays.stream(quantidade)
                             .filter(s -> s != null && !s.trim().isEmpty() && !"null".equalsIgnoreCase(s.trim()))
                             .toArray(String[]::new);
-                    menuLoop = false;
+
                     break;
                 case 6:
                     imprimir("Redigite a observação\n");
                     observacao = in.nextLine();
-                    menuLoop = false;
+
                     break;
                 case 7:
                     int escolha  = 0;
@@ -479,13 +510,13 @@ public class Main {
                         else if (escolha == 2)finalizado = false;
                         else imprimir("Escolha uma opção válida\n");
                     }
-                    menuLoop = false;
+
                     break;
                 case 8:
 
                     LocalDate date = LocalDate.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-                    String actualDate= date.format(formatter);
+                    String actualDate = date.format(formatter);
 
                     //Primeiro passo, validar os obrigatórios - Sem essa de cadastrar empresa sem nome...
                     boolean validacao = true;
@@ -495,22 +526,28 @@ public class Main {
                     }
                     if(respTecnico == null) {
                         System.out.println("É necessário ter o nome do responsável");
+                        validacao = false;
                     }
                     if(funcionarios == null || horas == null) {
                         System.out.println("É necessário ter o nome e as horas de ao menos um funcionário");
+                        validacao = false;
                     }
                     if(descricao == null) {
                         System.out.println("É necessário a descrição do realizado");
+                        validacao = false;
                     }
-                    String filePath = "OS/andamento/";
 
-                    if(finalizado) {
-                        filePath = "OS/finalizada/";
+                    if(!validacao) {
+                        break;
                     }
 
 
                     String fileName = "OS/andamento/" + archivesOnFolder[selecaoArchive].getName();
-
+                    if (finalizado) {
+                        Path destPath = Paths.get("OS/finalizada/" + archivesOnFolder[selecaoArchive].getName());
+                        fileMover(Paths.get(fileName), destPath);
+                        fileName = destPath.toString();
+                    }
                     Arquivo fileArquivo = new Arquivo(fileName);
 
                     //Abre a escrita
@@ -561,11 +598,11 @@ public class Main {
 
                     //fecha arquivo
                     fileArquivo.fecharArquivo();
-                    menuLoop = false;
+
                     break;
                 case 9:
                     showOS("OS/andamento/" + archivesOnFolder[selecaoArchive].getName());
-                    menuLoop = false;
+
                     break;
                 case 0:
                     mainMenu();
